@@ -3,8 +3,8 @@ import DashboardTable from "../components/DashboardTable"
 import Pagination from "../components/Pagination"
 import SearchBar from "../components/SearchBar"
 import { saveToStorage,loadFromStorage } from "../utils/storage";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router";
+import "./index.css"
 
 const Dashboard = ()=>{
     const [comments,setComments]  = useState([])
@@ -33,32 +33,32 @@ const Dashboard = ()=>{
     saveToStorage('currentPage', currentPage);
   }, [search, sortConfig, pageSize, currentPage]);
 
-  const handleSearch = (input)=> {
-    setSearch(input)
-    const lowerInput = input.toLowerCase()
-    setFiltered(comments.filter(item=>
-        item.name.toLowerCase().includes(lowerInput) || 
-        item.email.toLowerCase().includes(lowerInput)
-    ))
+  const handleSearch = (input) => {
+  setSearch(input);
+  const lowerInput = input.toLowerCase();
 
-  }
+  const filteredData = comments.filter(item =>
+    item.name.toLowerCase().includes(lowerInput) ||
+    item.email.toLowerCase().includes(lowerInput) ||
+    item.body.toLowerCase().includes(lowerInput) ||
+    item.postId.toString().includes(lowerInput) 
+  );
+
+  setFiltered(filteredData);
+};
 
 
 
 
   return(
     <div>
-
         <div>
-          <div style={{display:"flex",justifyContent:"space-between",paddingLeft:"30px" ,margin:"20px 20px"}}>      
-                <button type="button" style={{backgroundColor:'blueviolet',color:"white"}} onClick={()=>navigate("/Profile")} >Go To Profile</button>
+          <div className="bg-container" >      
+                <button type="button" className="btn" onClick={()=>navigate("/Profile")} >Go To Profile</button>
 
                 <SearchBar onSearch={handleSearch} search={search} />
                
-
-
-
-                <select value={pageSize} style={{backgroundColor:"#8b5cf6",color: "white",border: "none",cursor:"pointer"}} onChange={(e)=>setPageSize(Number(e.target.value))}>
+                <select value={pageSize} className="btn1" onChange={(e)=>setPageSize(Number(e.target.value))}>
                           <option value={10}>10</option>
                           <option value={50}>50</option>
                           <option value={100}>100</option>
@@ -67,6 +67,7 @@ const Dashboard = ()=>{
 
         <DashboardTable
             data={filtered}
+            findSearch = {search}
             sortConfig={sortConfig}
             setSortConfig={setSortConfig}
             currentPage={currentPage}

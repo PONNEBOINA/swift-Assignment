@@ -12,7 +12,7 @@ const getSortedData = (data, sortConfig) => {
   return sorted;
 };
 
-const DashboardTable = ({ data, sortConfig, setSortConfig, currentPage, pageSize }) => {
+const DashboardTable = ({ data, sortConfig, setSortConfig, currentPage, pageSize,findSearch }) => {
   const start = (currentPage - 1) * pageSize;
   const currentData = getSortedData(data, sortConfig).slice(start, start + pageSize);
 
@@ -31,6 +31,22 @@ const DashboardTable = ({ data, sortConfig, setSortConfig, currentPage, pageSize
     return sortConfig.direction === 'asc' ? '↑' : '↓';
   };
 
+  const highlightMatch = (text, search) => {
+  if (!search) return text;
+
+  const regex = new RegExp(`(${search})`, 'gi');
+  const parts = text.split(regex);
+
+  return parts.map((part, i) =>
+    part.toLowerCase() === search.toLowerCase() ? (
+      <span key={i} style={{ backgroundColor: 'yellow', fontWeight: 'bold' }}>{part}</span>
+    ) : (
+      part
+    )
+  );
+};
+
+
   return (
     <table border="1" width="100%" cellPadding="10" style={{ borderCollapse: 'collapse' }}>
       <thead>
@@ -46,10 +62,10 @@ const DashboardTable = ({ data, sortConfig, setSortConfig, currentPage, pageSize
         {currentData.length > 0 ? (
           currentData.map((item) => (
             <tr key={item.id}>
-              <td>{item.postId}</td>
-              <td>{item.name}</td>
-              <td>{item.email}</td>
-              <td>{item.body}</td>
+              <td>{highlightMatch(item.postId.toString(), findSearch)}</td>
+              <td>{highlightMatch(item.name,findSearch)}</td>
+              <td>{highlightMatch(item.email,findSearch)}</td>
+              <td>{(item.body)}</td>
             </tr>
           ))
         ) : (

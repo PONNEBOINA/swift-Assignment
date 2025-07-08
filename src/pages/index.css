@@ -1,0 +1,32 @@
+.bg-container{
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 30px;
+}
+.btn{
+    background-color:  #6366f1;;
+    padding: 10px;
+    color: white;
+}
+
+.btn:hover {
+    background-color: blue;
+    padding: 10px;
+    color: white;
+    border-radius: 15px;
+
+}
+
+.btn1:hover {
+    background-color: blue;
+    padding: 10px;
+    color: white;
+    border-radius: 15px;
+}
+
+.btn1 {
+    background-color: #6366f1;;
+    padding: 10px;
+    color: white;
+    border-radius: 6px;
+}
